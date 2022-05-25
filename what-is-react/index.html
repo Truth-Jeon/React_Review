@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+        <title>Example</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                border: 0;
+            }
+            #root p {
+                color: white;
+                font-size: 20px;
+                background-color: green;
+                text-align: center;
+                width: 200px;
+            }
+            #btn_plus {
+                background-color: red;
+                border: 2px solid #000000;
+                font-size: 15px;
+                width: 200px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="root"></div>
+        <button id="btn_plus">+</button>
+        <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+        <!-- CDN Link 때문에 React 와 ReactDOM 전역개체가 생성됨. -->
+
+        <script type="text/javascript">
+            console.log(React);
+            console.log(ReactDOM);
+
+            // const root = document.querySelector('#root');
+            // const btn_plus = document.querySelector('#btn_plus');
+
+            // let i = 0;
+
+            // root.innerHTML = '<p>init : 0</p>';
+            // btn_plus.addEventListener('click', () => {
+            //     root.innerHTML = `<p>init : ${++i}</p>`;
+            // });
+
+            // 설명 : component 안에는 데이터가 들어있다.
+            // 이것들은 어떠한 행위에 의해서 값이 바뀔 수 있으며, 값이 바뀌면 컴포넌트가 다른 형태로 랜더가 되어야 한다.
+            // 랜더라고 하는 곳에는 상태값에 의해서 표현되는 결과물이 있으며,
+            // 값이 변경되자마자 꼭 랜더를 해줘야 한다.
+            // 리액트는 이러한 일들을 쉽고 편안하게 할 수 있도록 우리에게 도움을 준다.
+            // const component = { //초깃값
+            //     message : 'init',
+            //     count: 0,
+            //     render() {
+            //         return `<p>${this.message} : ${this.count}</p>`;
+            //     }
+            // };
+
+            // function render(rootElement, component) {
+            //     rootElement.innerHTML = component.render();
+            // }
+
+            // // 초기화
+            // render(document.querySelector('#root'), component);
+
+            // document.querySelector('#btn_plus').addEventListener('click', () => {
+            //     component.message = 'update';
+            //     component.count = component.count + 1;
+
+            //     render(document.querySelector('#root'), component);
+            // });
+
+            // <p>""</p>
+            const Component = props => {
+                return React.createElement(
+                    'p', // <p></p> 태그
+                    null, // <p>태그 안에 들어가는 id="name" 이 부분을 생략.
+                    `${props.message} : ${props.count}` //<p> (여기에 들어가는 내용) </p>
+                );
+            }
+
+            ReactDOM.render(
+                /* 리액트 컴포넌트 */React.createElement(Component, {message: 'init', count: 0}, null), document.querySelector('#root')
+                );
+
+            document.querySelector('#btn_plus').addEventListener('click', () => {
+                ReactDOM.render(
+                React.createElement(
+                    Component,
+                    {message: "update", count: 10},
+                    null
+                ),
+                document.querySelector('#root')
+                );
+            })
+        </script>
+    </body>
+</html>

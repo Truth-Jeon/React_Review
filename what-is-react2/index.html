@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+        <title>Example2</title>
+    </head>
+    <body>
+        <div id="root"></div>
+        <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <script type="text/babel">
+            console.log(React);
+            console.log(ReactDOM);
+
+            //(1)
+            // class App extends React.Component {
+            //     state = {
+            //         age: 39,
+            //     };
+            //     interval = null;
+            //     constructor(props) {
+            //         super(props);
+
+            //         console.log("constructor", props);
+            //     }
+            //     //콘솔로 찍어봤을 때, 순서가 componentWillMount -> render -> componentDidMount 가 된다.
+            //     render() {
+            //         console.log("render");
+            //         return (
+            //             <div>
+            //                 <h2>Hello {this.props.name} - {this.state.age}</h2>
+            //             </div>
+            //         );
+            //     }
+            //     // static getDerivedStateFromProps(nextProps, prevState) {
+            //     //     console.log("getDerivedStateFromProps", nextProps, prevState);
+
+            //     //     return {
+            //     //         age: 390,
+            //     //     };
+            //     // }
+            //     componentDidMount() {   //타이머 처리, API 요청 등의 기능을 하게 됨.
+            //         console.log("componentDidMount");
+
+            //         this.interval = setInterval(() => {
+            //             // console.log("setInterval");
+            //             this.setState(state => ({...state, age: state.age+1}))
+            //         }, 1000);
+            //     }
+
+            //     // componentWillReceiveProps(nextProps) {
+            //     //     console.log('componentWillReceiveProps', nextProps);
+            //     // }
+
+            //     shouldComponentUpdate(nextProps, nextState) {
+            //         console.log('shouldComponentUpdate', nextProps, nextState);
+
+            //         return true;    //return을 false로 한다면 다음으로 넘어가지 않기 때문에 render되지 않는다.
+            //     }
+
+            //     // componentWillUpdate(nextProps, nextState) {
+            //     //     console.log('componentWillUpdate', nextProps, nextState);
+            //     // }
+
+            //     componentDidUpdate(prevProps, prevState) {
+            //         console.log('componentDidUpdate', prevProps, prevState);
+            //     }
+
+            //     componentWillUnmount() {
+            //         clearInterval(this.interval);
+            //     }
+            // }
+
+            //(2)
+            // let i = 0;
+
+            // class App extends React.Component {
+            //     state = {list: []};
+
+            //     render() {
+            //         return (
+            //             <div id="list" style={{height:100, overflow:"scroll"}}>
+            //             {this.state.list.map((i) => {
+            //                 return <div>{i}</div>
+            //             })}    
+            //             </div>
+            //         );
+            //     }
+
+            //     componentDidMount() {
+            //         setInterval(() => {
+            //             this.setState(state => ({
+            //                 list: [...state.list, i++],
+            //             }))
+            //         }, 1000);
+            //     }
+
+            //     getSnapshotBeforeUpdate(prevProps, prevState) {
+            //         if (prevState.list.length === this.state.list.length) return null; // return이 update 하기 전에 snapshot을 저장한다는 의미인데, return null은 아무것도 저장하지 않겠다는 의미이다.
+            //         const list = document.querySelector("#list");
+            //         return list.scrollHeight - list.scrollTop;
+            //     }
+
+            //     //숫자가 늘어날 때 마다 scorll도 같이 움직이게 하는 역할.
+            //     componentDidUpdate(prevProps, prevState, snapshot) {
+            //         console.log(snapshot);
+            //         if (snapshot === null) return;
+            //         const list = document.querySelector("#list");
+            //         list.scrollTop = list.scrollHeight - snapshot;
+            //     }
+            // }
+
+            //(3)
+            class App extends React.Component {
+                state = {
+                    hasError: false
+                };
+                render() {
+                    if (this.state.hasError) {
+                        return <div>예상치 못한 에러가 발생했다.</div>
+                    }
+                    return <WebService />;
+                }
+                componentDidCatch(error, info) {
+                    this.setState({hasError: true});
+                }
+            }
+
+            ReactDOM.render(<App name="Mark" />, document.querySelector("#root"));
+        </script>
+    </body>
+</html>
